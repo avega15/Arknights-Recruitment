@@ -1,6 +1,7 @@
 characters = [
 {
 	Name: "Lancet-2",
+	Qualification: "Starter",
 	Position: "Ranged",
 	Class: "Medic",
 	Tags: ["Healing", "Robot"],
@@ -8,59 +9,69 @@ characters = [
 },{
 	Name: "Castle-3",
 	Position: "Melee",
+	Qualification: "Starter",
 	Class: "Guard",
 	Tags: ["Support", "Robot"],
 	Rank: 1
 },{
 	Name: "12F",
+	Qualification: "Starter",
 	Position: "Ranged",
 	Class: "Caster",
 	Tags: ["Starter"],
 	Rank: 2
 },{
 	Name: "Noir Carne",
+	Qualification: "Starter",
 	Position: "Melee",
 	Class: "Defender",
 	Tags: ["Starter"],
 	Rank: 2
 },{
 	Name: "Durin",
+	Qualification: "Starter",
 	Position: "Ranged",
 	Class: "Caster",
 	Tags: ["Ranged", "Starter"],
 	Rank: 2
 },{
 	Name: "Yato",
+	Qualification: "Starter",
 	Position: "Melee",
 	Class: "Vanguard",
 	Tags: ["Melee", "Starter"],
 	Rank: 2
 },{
 	Name: "Rangers",
+	Qualification: "Starter",
 	Position: "Ranged",
 	Class: "Sniper",
 	Tags: ["Starter"],
 	Rank: 2
 },{
 	Name: "Adnachiel",
+	Qualification: "Starter",
 	Position: "Ranged",
 	Class: "Sniper",
 	Tags: ["Ranged", "DPS"],
 	Rank: 3
 },{
 	Name: "Estelle",
+	Qualification: "Senior Operator",
 	Position: "Melee",
 	Class: "Guard",
 	Tags: ["AOE", "Survival"],
 	Rank: 4
 },{
 	Name: "Indra",
+	Qualification: "Top Operator",
 	Position: "Melee",
 	Class: "Guard",
 	Tags: ["Senior", "DPS", "Survival"],
 	Rank: 5
 },{
 	Name: "Vulcan",
+	Qualification: "Top Operator",
 	Position: "Melee",
 	Class: "Defender",
 	Tags: ["Senior", "Survival", "Defense", "DPS"],
@@ -69,74 +80,146 @@ characters = [
 
 let final = []
 let namesFinal = []
-let inputPosition = "Melee"
-let inputClass = "Vanguard"
-let inputTags = ["Starter", "Robot"]
 
-for(let key in characters){
-	if(characters.hasOwnProperty(key)){
-		let getPosition = characters[key].Position
+let qualToggle = false
+let inputQual = ""
 
-		if(getPosition == inputPosition){
-			final.push(characters[key])
-		}
-	}
-}
+let posToggle = false
+let inputPosition = ""
 
-for(let key in characters){
-	if(characters.hasOwnProperty(key)){
-		let getClass = characters[key].Class
+let classToggle = false
+let inputClass = []
 
-		if(getClass == inputClass && !final.includes(characters[key])){
-			final.push(characters[key])
-		}
+let tagToggle = false
+let inputTags = []
 
-	}
+function filterQualification(){
+	for(let key in characters){
+		if(characters.hasOwnProperty(key)){
+			let getQual = characters[key].Qualification
 
-}
+			for(let i = 0; i < final.length; i++){
+				for(let j = 0; j < getQual.length; j++){
 
-for(let key in characters){
-	if(characters.hasOwnProperty(key)){
-		let getTags = characters[key].Tags
-		for(let i = 0; i < inputTags.length; i++){
-				for(let j = 0; j < getTags.length; j++){
-					if(getTags[j] == inputTags[i] && !final.includes(characters[key])){
-						final.push(characters[key])
-					}
 				}
+			}
 		}
 	}
-
 }
 
-for(let i = 0; i < final.length; i++){
-	namesFinal.push(final[i].Name)
+function checkQualification(){
+	for(let key in characters){
+		if(characters.hasOwnProperty(key)){
+			let getQual = characters[key].Qualification
+
+			if(getQual == inputQual && !final.includes(characters[key])){
+				final.push(characters[key].Name)
+			}
+		}
+	}
 }
 
+function checkPosition(){
+	for(let key in characters){
+		if(characters.hasOwnProperty(key)){
+			let getPosition = characters[key].Position
 
+			if(getPosition == inputPosition && !final.includes(characters[key])){
+				final.push(characters[key].Name)
+			}
+		}
+	}
+}
+
+function checkClass(){
+	for(let key in characters){
+		if(characters.hasOwnProperty(key)){
+			let getClass = characters[key].Class
+
+			for(let i = 0; i < inputClass.length; i++){
+				if(inputClass[i] == getClass && !final.includes(characters[key])){
+					final.push(characters[key].Name)
+				}
+
+			}
+
+		}
+
+	}
+}
+
+function checkTags(){
+	for(let key in characters){
+		if(characters.hasOwnProperty(key)){
+			let getTags = characters[key].Tags
+			
+			for(let i = 0; i < inputTags.length; i++){
+					for(let j = 0; j < getTags.length; j++){
+						if(getTags[j] == inputTags[i] && !final.includes(characters[key])){
+							final.push(characters[key].Name)
+						}
+					}
+			}
+		}
+
+	}	
+}
 
 function alertFunction(){
-	alert(namesFinal)
+
+	//Checks user input against objects
+	//Places matches into an array
+	checkQualification()
+	checkPosition()
+	checkClass()
+	checkTags()
+	//filterQualification()
+	//Gets rid of duplicate entries
+	let unique = new Set(final);
+	final = [...unique]
+	let finalNames = final.join(", ")
+	alert(finalNames)
+	form = []
+
 }
 
 function qualActive(id){
-	id = "qualActive"
-	alert(id)
+	if(qualToggle == true){
+		inputQual = ""
+		qualToggle = false
+	}else{
+		inputQual = id
+		qualToggle = true
+	}
 }
+
 function posActive(id){
-	inputPosition = id
-	alert(inputPosition)
+	if(posToggle == true){
+		inputQual = ""
+		posToggle = false
+	}else{
+		inputPosition = id
+		posToggle = true
+	}
 }
 
 function classActive(id){
-	inputClass = id 
-	alert(id)
+	if(classToggle == true){
+		inputClass = []
+		classToggle = false
+	}else{
+		inputClass.push(id)
+		classToggle = true
+	} 
 }
 
 function tagActive(id){
-	inputTag.push(id)
-	alert(id)
+	if(tagToggle == true){
+		inputTags = []
+		tagToggle = false
+	}else{
+		inputTags.push(id)
+		tagActive = true	
+	}
+	
 }
-
-
-
